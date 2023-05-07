@@ -9,7 +9,7 @@ int main() {
     Uint32 frameStart;
     int frameTime;
 
-    GameEngine* game = new GameEngine("Battleships", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 600, 400);
+    GameEngine* game = new GameEngine("Battleships", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 850, 400);
 
     while (game->running()){
         frameStart = SDL_GetTicks();
