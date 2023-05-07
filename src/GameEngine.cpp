@@ -3,6 +3,11 @@
 SDL_Renderer* GameEngine::renderer = nullptr;
 SDL_Event GameEngine::event;
 
+void GameEngine::MapLost(Map *map) {
+    gameEnded = true;
+    playerWon = !map->isPlayer;
+}
+
 GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int height) {
     if(SDL_Init(SDL_INIT_EVERYTHING) == 0){
         this->window = SDL_CreateWindow(title, xpos, ypos, width, height, 0);
@@ -17,6 +22,7 @@ GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int hei
 
     // Create playerMap
     playerMap = new Map();
+    playerMap->isPlayer = true;
     enemyMap = new Map(417);
 }
 
@@ -38,6 +44,15 @@ void GameEngine::render(){
     SDL_RenderClear(renderer);
     playerMap->draw();
     enemyMap->draw();
+
+    if(gameEnded){
+        switch (playerWon) {
+            case true:
+                break;
+            case false:
+                break;
+        }
+    }
 
     SDL_RenderPresent(renderer);
 }

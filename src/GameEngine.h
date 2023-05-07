@@ -9,6 +9,8 @@ private:
     bool isRunning;
     SDL_Window *window;
     Map* playerMap, *enemyMap;
+    static bool gameEnded;
+    static bool playerWon;
 
 public:
     GameEngine(const char* title, int xpos, int ypos, int width, int height);
@@ -23,6 +25,7 @@ public:
 
     static SDL_Renderer* renderer;
     static SDL_Event event;
+    static void MapLost(Map* map);
 };
 
 

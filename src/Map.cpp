@@ -2,6 +2,8 @@
 #include "TextureManager.h"
 #include <string>
 #include <iostream>
+#include <algorithm>
+#include <vector>
 
 Tile::Tile(const char *path, int x, int y) {
     this->texture = TextureManager::LoadTexture(path);
@@ -62,5 +64,39 @@ void Map::draw() {
                 grid[i][j]->draw();
             }
         }
+    }
+}
+void PlayerMap(Map* m){
+    // If map is set return
+    if(m->confirmed) return;
+
+    // Player picks ships
+
+}
+
+void EnemyMap(Map* m){
+
+}
+
+void Map::update() {
+    if(isPlayer){
+        PlayerMap(this);
+    } else {
+        EnemyMap(this);
+    }
+
+    std::vector<std::pair<bool, bool>> _shipVec;
+
+    // Counting hit ships
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            _shipVec.push_back(ships[i][j]);
+        }
+    }
+
+    // Check if all ships are hit
+    if(shipNumber == std::count_if(_shipVec.begin(), _shipVec.end(), [](std::pair<bool, bool> x){ return x.first && x.second;})){
+        // If true this map has lost
+        GameEngine::MapLost(this);
     }
 }

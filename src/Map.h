@@ -18,14 +18,21 @@ private:
 class Map {
 private:
     Tile* grid[11][11];
+    // first - isHit, second - does have ship
+    std::pair<bool, bool> ships[10][10];
+    const int shipNumber = 16;
     void init();
 public:
     int margin = 32;
     int offset = 0;
+    bool isPlayer = false;
+    bool confirmed = false;
     Map();
     Map(int offset);
     ~Map();
     void draw();
+    void update();
+    static bool confirm();
 };
 
 
