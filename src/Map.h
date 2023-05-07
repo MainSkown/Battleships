@@ -13,12 +13,12 @@ public:
     void SetTexture(const char* path);
 private:
     SDL_Texture* texture;
-    SDL_Rect src, dest;
+    SDL_Rect src{}, dest{};
 };
 
 class Map {
 private:
-    const int shipNumber = 16;
+    const int shipNumber = 35;
     void init();
 public:
     Tile* grid[11][11];
@@ -35,7 +35,7 @@ public:
     void draw();
     void update();
     void PickGrid(int xIndex, int yIndex);
-    static bool confirm();
+    bool confirm();
 };
 
 
