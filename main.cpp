@@ -21,9 +21,9 @@ int main() {
        // Limit frames to FPS value;
        frameTime = SDL_GetTicks() - frameStart;
 
-       if(frameDelay > frameTime){
+       /*if(frameDelay > frameTime){
            SDL_Delay(frameDelay - frameTime);
-       }
+       }*/
     }
 
     game->clean();
