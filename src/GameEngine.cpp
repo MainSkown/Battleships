@@ -3,6 +3,9 @@
 SDL_Renderer* GameEngine::renderer = nullptr;
 SDL_Event GameEngine::event;
 
+bool GameEngine::gameEnded = false;
+bool GameEngine::playerWon = false;
+
 void GameEngine::MapLost(Map *map) {
     gameEnded = true;
     playerWon = !map->isPlayer;
@@ -27,17 +30,23 @@ GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int hei
 }
 
 void GameEngine::handleEvents() {
-    while (SDL_PollEvent(&event)){
-        switch(event.type){
+    while(SDL_PollEvent(&event)) {
+        switch (event.type) {
             case SDL_QUIT:
                 isRunning = false;
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                int x,y;
+                SDL_GetMouseState(&x, &y);
+                playerMap->PickGrid(x, y);
+                enemyMap->PickGrid(x,y);
                 break;
         }
     }
 }
 
 void GameEngine::update() {
-
+    playerMap->update();
 }
 
 void GameEngine::render(){

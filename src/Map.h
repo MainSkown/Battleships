@@ -10,6 +10,7 @@ public:
     Tile(const char* path, int x, int y);
     ~Tile();
     void draw();
+    void SetTexture(const char* path);
 private:
     SDL_Texture* texture;
     SDL_Rect src, dest;
@@ -17,12 +18,13 @@ private:
 
 class Map {
 private:
-    Tile* grid[11][11];
-    // first - isHit, second - does have ship
-    std::pair<bool, bool> ships[10][10];
     const int shipNumber = 16;
     void init();
 public:
+    Tile* grid[11][11];
+    // first - isHit, second - does have ship
+    std::pair<bool, bool> ships[10][10];
+
     int margin = 32;
     int offset = 0;
     bool isPlayer = false;
@@ -32,6 +34,7 @@ public:
     ~Map();
     void draw();
     void update();
+    void PickGrid(int xIndex, int yIndex);
     static bool confirm();
 };
 
