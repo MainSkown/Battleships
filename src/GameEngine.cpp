@@ -15,7 +15,9 @@ GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int hei
 
     isRunning = true;
 
-    // Create map etc.
+    // Create playerMap
+    playerMap = new Map();
+    enemyMap = new Map(417);
 }
 
 void GameEngine::handleEvents() {
@@ -34,6 +36,8 @@ void GameEngine::update() {
 
 void GameEngine::render(){
     SDL_RenderClear(renderer);
+    playerMap->draw();
+    enemyMap->draw();
 
     SDL_RenderPresent(renderer);
 }
