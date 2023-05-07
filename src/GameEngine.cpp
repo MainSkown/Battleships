@@ -10,7 +10,7 @@ GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int hei
 
     renderer = SDL_CreateRenderer(window, -1, 0);
     if(renderer){
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     }
 
     isRunning = true;
