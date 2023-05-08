@@ -76,15 +76,16 @@ void Map::draw() {
 }
 
 void Map::PickGrid(int x, int y) {
-    if (isPlayer) {
-        // Return if game is in after picking faze
-        if (confirmed) return;
-        // Pick grid
-        int xIndex = floor((x - margin - offset) / 32);
-        int yIndex = floor((y - margin) / 32);
+    // Pick grid
+    int xIndex = floor((x - margin - offset) / 32);
+    int yIndex = floor((y - margin) / 32);
 
-        // Player clicked outside the map
-        if (xIndex < 1 || yIndex < 1 || xIndex > 10 || yIndex > 10) return;
+    // Player clicked outside the map
+    if (xIndex < 1 || yIndex < 1 || xIndex > 10 || yIndex > 10) return;
+
+    if (isPlayer) {
+        // Return if game is after picking faze
+        if (confirmed) return;
 
         if (!ships[xIndex - 1][yIndex - 1].second) {
             // Ship was not picked
@@ -97,7 +98,20 @@ void Map::PickGrid(int x, int y) {
         }
 
     } else {
+        // Return if game is in picking faze
+        if(!confirmed) return;
         // Enemy map -> attacking tiles
+        if(GameEngine::round != PLAYER) return;
+        ships[xIndex - 1][yIndex - 1].first = true;
+        if (ships[xIndex - 1][yIndex - 1].second) {
+            // Ship was hit
+            grid[xIndex][yIndex]->SetTexture("assets/hit.png");
+        } else {
+            // There was no ship
+            grid[xIndex][yIndex]->SetTexture("assets/missed.png");
+        }
+
+        GameEngine::playerShot();
     }
 }
 

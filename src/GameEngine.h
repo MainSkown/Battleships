@@ -5,6 +5,11 @@
 #include "Map.h"
 #include "UI/UIElements.h"
 
+enum Round {
+    PLAYER,
+    ENEMY
+};
+
 class GameEngine {
 private:
     bool isRunning;
@@ -14,7 +19,10 @@ private:
     static bool playerWon;
     UILayer* uiLayer;
     Button *confirmButton;
+    bool secondStage = false;
+
 public:
+    static Round round;
     GameEngine(const char* title, int xpos, int ypos, int width, int height);
     ~GameEngine();
 
@@ -29,6 +37,7 @@ public:
     static SDL_Event event;
     static void MapLost(Map* map);
     void confirm();
+    static void playerShot();
 };
 
 

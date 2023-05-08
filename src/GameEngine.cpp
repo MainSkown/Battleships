@@ -7,6 +7,8 @@ SDL_Event GameEngine::event;
 bool GameEngine::gameEnded = false;
 bool GameEngine::playerWon = false;
 
+Round GameEngine::round = PLAYER;
+
 void GameEngine::MapLost(Map *map) {
     gameEnded = true;
     playerWon = !map->isPlayer;
@@ -16,6 +18,8 @@ void GameEngine::confirm() {
     std::cout << "Confirming" << std::endl;
     if (playerMap->confirm()) {
         uiLayer->DeleteElement(confirmButton);
+        secondStage = true;
+        enemyMap->confirmed = true;
     }
 }
 
@@ -58,14 +62,6 @@ void GameEngine::handleEvents() {
                 playerMap->PickGrid(x, y);
                 enemyMap->PickGrid(x, y);
                 break;
-            case SDL_KEYDOWN:
-                if (event.key.keysym.sym == SDLK_SPACE) {
-                    if (playerMap->confirm()) {
-                        std::cout << "Player confirmed" << std::endl;
-                    } else {
-                        std::cout << "Player not confirmed" << std::endl;
-                    }
-                }
         }
     }
 }
@@ -94,8 +90,18 @@ void GameEngine::render() {
     SDL_RenderPresent(renderer);
 }
 
+void GameEngine::playerShot() {
+    round = ENEMY;
+}
+
 void GameEngine::clean() {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
+}
+
+GameEngine::~GameEngine() {
+    delete playerMap;
+    delete enemyMap;
+    delete uiLayer;
 }
