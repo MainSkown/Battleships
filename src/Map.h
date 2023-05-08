@@ -2,7 +2,6 @@
 #define BATTLESHIPS_MAP_H
 
 #include <SDL.h>
-#include "Vector2D.h"
 
 class Tile{
 public:

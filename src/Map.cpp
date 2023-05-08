@@ -82,7 +82,7 @@ void Map::PickGrid(int x, int y) {
         // Pick grid
         int xIndex = floor((x - margin - offset) / 32);
         int yIndex = floor((y - margin) / 32);
-        std::cout << xIndex << " " << yIndex << std::endl;
+
         // Player clicked outside the map
         if (xIndex < 1 || yIndex < 1 || xIndex > 10 || yIndex > 10) return;
 
