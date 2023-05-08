@@ -4,7 +4,6 @@
 #include <SDL.h>
 #include <vector>
 #include <bitset>
-#include <array>
 #include <memory>
 #include <algorithm>
 
