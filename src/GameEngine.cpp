@@ -15,7 +15,7 @@ void GameEngine::MapLost(Map *map) {
 void GameEngine::confirm() {
     std::cout << "Confirming" << std::endl;
     if(playerMap->confirm()){
-        // Then delete button and set game to second stage
+        uiLayer->DeleteElement(confirmButton);
     }
 }
 
@@ -39,7 +39,7 @@ GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int hei
     // Create UI
     uiLayer = new UILayer();
 
-    uiLayer->AddElement<Button>("assets/confirm.png", 256, 396, 128, 32, std::bind(&GameEngine::confirm, this));
+    confirmButton = &uiLayer->AddElement<Button>("assets/confirm.png", 256, 396, 128, 32, std::bind(&GameEngine::confirm, this));
 }
 
 void GameEngine::handleEvents() {

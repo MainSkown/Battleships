@@ -6,6 +6,7 @@
 #include <bitset>
 #include <array>
 #include <memory>
+#include <algorithm>
 
 class UILayer;
 class UIElement;
@@ -22,6 +23,8 @@ public:
     virtual void update() = 0;
     virtual std::vector<SDL_EventType> getAllEventsUsed() = 0;
     void draw();
+    virtual ~UIElement();
+    virtual void clean();
 };
 
 class UILayer {
@@ -52,6 +55,13 @@ class UILayer {
 
     bool HasEvent(Uint32 eT) const {
         return eventTypes[eT];
+    }
+
+    void DeleteElement(UIElement* element) {
+        auto el =
+                std::find_if(elements.begin(), elements.end(), [&](std::unique_ptr<UIElement> &e) { return e.get() == element; });
+        el->reset();
+        elements.erase(std::remove(elements.begin(), elements.end(), *el), elements.end());
     }
 };
 

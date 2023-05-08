@@ -5,3 +5,11 @@
 void UIElement::draw() {
     TextureManager::Draw(texture, srcRect, destRect);
 };
+
+void UIElement::clean() {
+    SDL_DestroyTexture(texture);
+}
+
+UIElement::~UIElement() noexcept {
+    clean();
+}

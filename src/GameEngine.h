@@ -13,7 +13,7 @@ private:
     static bool gameEnded;
     static bool playerWon;
     UILayer* uiLayer;
-
+    Button *confirmButton;
 public:
     GameEngine(const char* title, int xpos, int ypos, int width, int height);
     ~GameEngine();
