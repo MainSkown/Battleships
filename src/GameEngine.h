@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include "Map.h"
+#include "UI/UIElements.h"
 
 class GameEngine {
 private:
@@ -11,6 +12,7 @@ private:
     Map* playerMap, *enemyMap;
     static bool gameEnded;
     static bool playerWon;
+    UILayer* uiLayer;
 
 public:
     GameEngine(const char* title, int xpos, int ypos, int width, int height);
@@ -26,6 +28,7 @@ public:
     static SDL_Renderer* renderer;
     static SDL_Event event;
     static void MapLost(Map* map);
+    void confirm();
 };
 
 
