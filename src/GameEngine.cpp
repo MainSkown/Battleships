@@ -1,7 +1,7 @@
 #include "GameEngine.h"
 #include <iostream>
 
-SDL_Renderer* GameEngine::renderer = nullptr;
+SDL_Renderer *GameEngine::renderer = nullptr;
 SDL_Event GameEngine::event;
 
 bool GameEngine::gameEnded = false;
@@ -14,18 +14,18 @@ void GameEngine::MapLost(Map *map) {
 
 void GameEngine::confirm() {
     std::cout << "Confirming" << std::endl;
-    if(playerMap->confirm()){
+    if (playerMap->confirm()) {
         uiLayer->DeleteElement(confirmButton);
     }
 }
 
 GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int height) {
-    if(SDL_Init(SDL_INIT_EVERYTHING) == 0){
+    if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
         this->window = SDL_CreateWindow(title, xpos, ypos, width, height, 0);
     }
 
     renderer = SDL_CreateRenderer(window, -1, 0);
-    if(renderer){
+    if (renderer) {
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     }
 
@@ -39,12 +39,13 @@ GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int hei
     // Create UI
     uiLayer = new UILayer();
 
-    confirmButton = &uiLayer->AddElement<Button>("assets/confirm.png", 256, 396, 128, 32, std::bind(&GameEngine::confirm, this));
+    confirmButton = &uiLayer->AddElement<Button>("assets/confirm.png", 256, 396, 128, 32,
+                                                 std::bind(&GameEngine::confirm, this));
 }
 
 void GameEngine::handleEvents() {
-    while(SDL_PollEvent(&event)) {
-        if(uiLayer->HasEvent(event.type)){
+    while (SDL_PollEvent(&event)) {
+        if (uiLayer->HasEvent(event.type)) {
             uiLayer->HandleEvent(&event);
         }
         switch (event.type) {
@@ -52,14 +53,14 @@ void GameEngine::handleEvents() {
                 isRunning = false;
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                int x,y;
+                int x, y;
                 SDL_GetMouseState(&x, &y);
                 playerMap->PickGrid(x, y);
-                enemyMap->PickGrid(x,y);
+                enemyMap->PickGrid(x, y);
                 break;
             case SDL_KEYDOWN:
-                if(event.key.keysym.sym == SDLK_SPACE){
-                    if(playerMap->confirm()){
+                if (event.key.keysym.sym == SDLK_SPACE) {
+                    if (playerMap->confirm()) {
                         std::cout << "Player confirmed" << std::endl;
                     } else {
                         std::cout << "Player not confirmed" << std::endl;
@@ -74,14 +75,14 @@ void GameEngine::update() {
     uiLayer->update();
 }
 
-void GameEngine::render(){
+void GameEngine::render() {
     SDL_RenderClear(renderer);
     playerMap->draw();
     enemyMap->draw();
 
     uiLayer->draw();
 
-    if(gameEnded){
+    if (gameEnded) {
         switch (playerWon) {
             case true:
                 break;
