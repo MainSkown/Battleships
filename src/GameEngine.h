@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "Map.h"
 #include "UI/UIElements.h"
+#include "BattleshipAI.h"
 
 enum Round {
     PLAYER,
@@ -20,6 +21,7 @@ private:
     UILayer* uiLayer;
     Button *confirmButton;
     bool secondStage = false;
+    BattleshipAI *battleshipAi;
 
 public:
     static Round round;

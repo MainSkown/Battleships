@@ -133,6 +133,17 @@ void Map::update() {
     }
 }
 
+bool Map::Shoot(int x, int y) {
+    ships[y][x].first = true;
+    if(ships[y][x].second){
+        grid[y + 1][x + 1]->SetTexture("assets/hit.png");
+    } else {
+        grid[y + 1][x + 1]->SetTexture("assets/missed.png");
+    }
+
+    return ships[y][x].second;
+}
+
 /* Rules
  * 5x []
  * 4x [][]

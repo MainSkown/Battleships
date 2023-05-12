@@ -1,5 +1,6 @@
 #include "GameEngine.h"
 #include <iostream>
+#include "BattleshipAI.h"
 
 SDL_Renderer *GameEngine::renderer = nullptr;
 SDL_Event GameEngine::event;
@@ -40,6 +41,10 @@ GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int hei
     playerMap->isPlayer = true;
     enemyMap = new Map(417);
 
+    // Start AI
+    battleshipAi = new BattleshipAI();
+    battleshipAi->init();
+
     // Create UI
     uiLayer = new UILayer();
 
@@ -69,6 +74,11 @@ void GameEngine::handleEvents() {
 void GameEngine::update() {
     playerMap->update();
     uiLayer->update();
+
+    if(round == ENEMY){
+        battleshipAi->Shoot(*playerMap);
+        round = PLAYER;
+    }
 }
 
 void GameEngine::render() {
