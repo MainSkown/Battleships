@@ -39,7 +39,14 @@ GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int hei
     // Create playerMap
     playerMap = new Map();
     playerMap->isPlayer = true;
+
+    // Create enemyMap
     enemyMap = new Map(417);
+    enemyMap->LoadMap();
+    enemyMap->isPlayer = false;
+    if (!enemyMap->confirm()) {
+        throw std::runtime_error("Enemy map is not valid");
+    }
 
     // Start AI
     battleshipAi = new BattleshipAI();
@@ -75,7 +82,7 @@ void GameEngine::update() {
     playerMap->update();
     uiLayer->update();
 
-    if(round == ENEMY){
+    if (round == ENEMY) {
         battleshipAi->Shoot(*playerMap);
         round = PLAYER;
     }

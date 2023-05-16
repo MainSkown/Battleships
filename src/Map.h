@@ -36,6 +36,7 @@ public:
     void PickGrid(int xIndex, int yIndex);
     bool confirm();
     bool Shoot(int x, int y);
+    void LoadMap();
 };
 
 

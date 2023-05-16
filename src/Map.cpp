@@ -5,6 +5,42 @@
 #include <algorithm>
 #include <vector>
 #include <cmath>
+#include <random>
+
+/* Loading enemy map */
+
+const size_t enemyMapSize = 1;
+
+const bool enemyMap[enemyMapSize][10][10] = {
+        {
+                {0, 1, 0, 0, 0,0 ,0, 1, 0, 1},
+                {0, 1, 0, 1, 1,1 ,0, 1, 0, 1},
+                {0, 0, 0, 0, 0,0 ,0, 1, 0, 1},
+                {1, 0, 1, 0, 1,0 ,0, 0, 0, 1},
+                {0, 0, 1, 0, 0,0 ,1, 1, 0, 1},
+                {0, 0, 0, 0, 1,0 ,0, 0, 0, 0},
+                {1, 1, 1, 0, 1,0 ,1, 0, 0, 1},
+                {0, 0, 0, 0, 1,0 ,0, 0, 0, 0},
+                {1, 0, 1, 0, 1,0 ,1, 1, 1, 1},
+                {0, 0, 1, 0, 0,0 ,0, 0, 0, 0}
+        }
+
+};
+
+void Map::LoadMap() {
+    // Pick random number from 0 to enemyMapSize - 1
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, enemyMapSize - 1);
+    int index = dis(gen);
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+            ships[i][j] = {false, enemyMap[index][i][j]};
+        }
+    }
+}
+
+/* End of loading enemy map */
 
 const char *tilePath = "assets/tile.png";
 const char *selectedPath = "assets/selectedTile.png";
@@ -102,6 +138,9 @@ void Map::PickGrid(int x, int y) {
         if(!confirmed) return;
         // Enemy map -> attacking tiles
         if(GameEngine::round != PLAYER) return;
+        // Ship was already hit
+        if (ships[xIndex - 1][yIndex - 1].first) return;
+        // Hit ship
         ships[xIndex - 1][yIndex - 1].first = true;
         if (ships[xIndex - 1][yIndex - 1].second) {
             // Ship was hit
@@ -284,3 +323,4 @@ bool Map::confirm() {
     confirmed = true;
     return true;
 }
+
