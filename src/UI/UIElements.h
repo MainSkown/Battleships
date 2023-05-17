@@ -3,5 +3,6 @@
 
 #include "UI.h"
 #include "Button.h"
+#include "Sprite.h"
 
 #endif //BATTLESHIPS_UIELEMENTS_H
