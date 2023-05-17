@@ -57,6 +57,13 @@ GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int hei
 
     confirmButton = &uiLayer->AddElement<Button>("assets/confirm.png", 256, 396, 128, 32,
                                                  std::bind(&GameEngine::confirm, this));
+
+    // PlayerWon sprite
+    playerWonSprite = &uiLayer->AddElement<Sprite>("assets/playerWon.png", 333, 400, 184, 32);
+    playerWonSprite->active = false;
+    // EnemyWon sprite
+    enemyWonSprite = &uiLayer->AddElement<Sprite>("assets/enemyWon.png", 333, 400, 184, 32);
+    enemyWonSprite->active = false;
 }
 
 void GameEngine::handleEvents() {
@@ -69,6 +76,9 @@ void GameEngine::handleEvents() {
                 isRunning = false;
                 break;
             case SDL_MOUSEBUTTONDOWN:
+                if(gameEnded) {
+                    continue;
+                }
                 int x, y;
                 SDL_GetMouseState(&x, &y);
                 playerMap->PickGrid(x, y);
@@ -79,7 +89,23 @@ void GameEngine::handleEvents() {
 }
 
 void GameEngine::update() {
+    if (gameEnded) {
+        switch (playerWon) {
+            case true:
+                playerWonSprite->active = true;
+                break;
+            case false:
+                enemyWonSprite->active = true;
+                break;
+        }
+    }
+
+    if(gameEnded) {
+        return;
+    }
+
     playerMap->update();
+    enemyMap->update();
     uiLayer->update();
 
     if (round == ENEMY) {
@@ -94,15 +120,6 @@ void GameEngine::render() {
     enemyMap->draw();
 
     uiLayer->draw();
-
-    if (gameEnded) {
-        switch (playerWon) {
-            case true:
-                break;
-            case false:
-                break;
-        }
-    }
 
     SDL_RenderPresent(renderer);
 }

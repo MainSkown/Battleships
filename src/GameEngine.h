@@ -22,7 +22,7 @@ private:
     Button *confirmButton;
     bool secondStage = false;
     BattleshipAI *battleshipAi;
-
+    Sprite *playerWonSprite, *enemyWonSprite;
 public:
     static Round round;
     GameEngine(const char* title, int xpos, int ypos, int width, int height);
