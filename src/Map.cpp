@@ -9,22 +9,45 @@
 
 /* Loading enemy map */
 
-const size_t enemyMapSize = 1;
+const size_t enemyMapSize = 3;
 
 const bool enemyMap[enemyMapSize][10][10] = {
         {
-                {0, 1, 0, 0, 0,0 ,0, 1, 0, 1},
-                {0, 1, 0, 1, 1,1 ,0, 1, 0, 1},
-                {0, 0, 0, 0, 0,0 ,0, 1, 0, 1},
-                {1, 0, 1, 0, 1,0 ,0, 0, 0, 1},
-                {0, 0, 1, 0, 0,0 ,1, 1, 0, 1},
-                {0, 0, 0, 0, 1,0 ,0, 0, 0, 0},
-                {1, 1, 1, 0, 1,0 ,1, 0, 0, 1},
-                {0, 0, 0, 0, 1,0 ,0, 0, 0, 0},
-                {1, 0, 1, 0, 1,0 ,1, 1, 1, 1},
-                {0, 0, 1, 0, 0,0 ,0, 0, 0, 0}
-        }
-
+                {0, 1, 0, 0, 0, 0, 0, 1, 0, 1},
+                {0, 1, 0, 1, 1, 1, 0, 1, 0, 1},
+                {0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+                {1, 0, 1, 0, 1, 0, 0, 0, 0, 1},
+                {0, 0, 1, 0, 0, 0, 1, 1, 0, 1},
+                {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                {1, 1, 1, 0, 1, 0, 1, 0, 0, 1},
+                {0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                {1, 0, 1, 0, 1, 0, 1, 1, 1, 1},
+                {0, 0, 1, 0, 0, 0, 0, 0, 0, 0}
+        },
+        {
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 1, 1, 0, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                {1, 0, 1, 1, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                {1, 0, 1, 1, 0, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 1, 1, 1, 0, 1, 1, 1, 0, 1},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+                {1, 1, 1, 1, 0, 1, 1, 1, 0, 1},
+        },
+        {
+                {1, 1, 1, 0, 1, 1, 1, 1, 0, 1},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 1, 1, 1, 0, 1, 0, 1, 1, 1},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
+                {0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+                {0, 1, 0, 1, 0, 1, 1, 0, 1, 0},
+                {0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+        },
 };
 
 void Map::LoadMap() {
@@ -33,10 +56,38 @@ void Map::LoadMap() {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> dis(0, enemyMapSize - 1);
     int index = dis(gen);
-    for(int i = 0; i < 10; i++){
-        for(int j = 0; j < 10; j++){
-            ships[i][j] = {false, enemyMap[index][i][j]};
-        }
+    std::uniform_int_distribution<> dis2(1, 4);
+    int direction = dis2(gen);
+    
+    switch (direction) {
+        case 1:
+            for (int i = 0; i < 10; i++) {
+                for (int j = 0; j < 10; j++) {
+                    ships[i][j] = {false, enemyMap[index][i][j]};
+                }
+            }
+            break;
+        case 2:
+            for (int i = 9; i >= 0; i--) {
+                for (int j = 0; j < 10; j++) {
+                    ships[i][j] = {false, enemyMap[index][9 - i][j]};
+                }
+            }
+            break;
+        case 3:
+            for (int i = 0; i < 10; i++) {
+                for (int j = 9; j >= 0; j--) {
+                    ships[i][j] = {false, enemyMap[index][i][9 - j]};
+                }
+            }
+            break;
+        case 4:
+            for (int i = 9; i >= 0; i--) {
+                for (int j = 9; j >= 0; j--) {
+                    ships[i][j] = {false, enemyMap[index][9 - i][9 - j]};
+                }
+            }
+            break;
     }
 }
 
@@ -135,9 +186,9 @@ void Map::PickGrid(int x, int y) {
 
     } else {
         // Return if game is in picking faze
-        if(!confirmed) return;
+        if (!confirmed) return;
         // Enemy map -> attacking tiles
-        if(GameEngine::round != PLAYER) return;
+        if (GameEngine::round != PLAYER) return;
         // Ship was already hit
         if (ships[xIndex - 1][yIndex - 1].first) return;
         // Hit ship
@@ -174,7 +225,7 @@ void Map::update() {
 
 bool Map::Shoot(int x, int y) {
     ships[y][x].first = true;
-    if(ships[y][x].second){
+    if (ships[y][x].second) {
         grid[y + 1][x + 1]->SetTexture("assets/hit.png");
     } else {
         grid[y + 1][x + 1]->SetTexture("assets/missed.png");
