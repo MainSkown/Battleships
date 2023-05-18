@@ -64,6 +64,9 @@ GameEngine::GameEngine(const char *title, int xpos, int ypos, int width, int hei
     // EnemyWon sprite
     enemyWonSprite = &uiLayer->AddElement<Sprite>("assets/enemyWon.png", 333, 400, 184, 32);
     enemyWonSprite->active = false;
+
+    // Add ships
+    uiLayer->AddElement<Sprite>("assets/ships.png", 36, 396, 197, 73);
 }
 
 void GameEngine::handleEvents() {

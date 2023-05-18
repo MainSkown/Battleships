@@ -9,21 +9,21 @@ int main() {
     Uint32 frameStart;
     int frameTime;
 
-    GameEngine* game = new GameEngine("Battleships", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 850, 450);
+    GameEngine *game = new GameEngine("Battleships", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 850, 500);
 
-    while (game->running()){
+    while (game->running()) {
         frameStart = SDL_GetTicks();
         // Every frame
-       game->handleEvents();
-       game->update();
-       game->render();
+        game->handleEvents();
+        game->update();
+        game->render();
 
-       // Limit frames to FPS value;
-       frameTime = SDL_GetTicks() - frameStart;
+        // Limit frames to FPS value;
+        frameTime = SDL_GetTicks() - frameStart;
 
-       /*if(frameDelay > frameTime){
-           SDL_Delay(frameDelay - frameTime);
-       }*/
+        /*if(frameDelay > frameTime){
+            SDL_Delay(frameDelay - frameTime);
+        }*/
     }
 
     game->clean();
