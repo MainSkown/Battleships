@@ -61,7 +61,7 @@ void BattleshipAI::Shoot(Map &playerMap) {
             }
 
             if (j + 1 < 10) {
-                if (map[i][j - 1].second) {
+                if (map[i][j + 1].second) {
                     t += 5;
                 }
             }
