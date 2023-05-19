@@ -2,7 +2,7 @@
 Battleship ULM
 ---
 ```mermaid
-classDiagram 
+classDiagram
 direction LR
 
 main --> GameEngine
@@ -22,13 +22,13 @@ UIElement <-- TextureManager
 BattleshipAI *--> TileAI
 Map *--> Tile
 
-Button <|-- UIElement
-Sprite <|-- UIElement
+Button --|> UIElement
+Sprite --|> UIElement
 
 UILayer *--> UIElement
 
 class GameEngine{
-    
+
     -bool isRunning;
     -SDL_Window *window;
     -Map* playerMap, *enemyMap;
@@ -50,30 +50,30 @@ class GameEngine{
 
     +static SDL_Renderer* renderer
     +static SDL_Event event
-    +static void MapLost(Map*)
+    +static MapLost(Map*)
     +confirm()
     +static playerShot()
 }
 
 class Round{
-    <<enumeration>>
-    PLAYER,
-    ENEMY
+<<enumeration>>
+PLAYER,
+ENEMY
 }
 
 class Tile{
-    -SDL_Texture* texture
-    -SDL_Rect src, dest
+-SDL_Texture* texture
+-SDL_Rect src, dest
 
     +Tile(const char*, int, int)
     +~Tile()
     +draw()
-    +SetTexture()
+    +SetTexture(const char*)
 }
 
 class Map{
-    -const int shipNumber = 35
-    -init()
+-const int shipNumber = 35
+-init()
 
     +Tile* grid[11][11]
     +pair<bool,bool> ships[10][10]
@@ -83,6 +83,7 @@ class Map{
     +bool isPlayer
     +bool confirmed
     +Map()
+    +Map(int)
     +~Map()
     +draw()
     +update()
@@ -93,57 +94,57 @@ class Map{
 }
 
 class TextureManager{
-    +static LoadTexture(const char*) SDL_Texture*
-    +static Draw(SDL_Texture*, SDL_Rect, SDL_Rect)
++static LoadTexture(const char*) SDL_Texture*
++static Draw(SDL_Texture*, SDL_Rect, SDL_Rect)
 }
 
 class TileAI{
-    +int value
-    +int x,y
-    +operator +=(int) int&
-    +operator =(int) int&
-    +operator >(TileAI&) bool
-    +friend operator<<(ostream&, TileAI&) ostream&
++int value
++int x,y
++operator +=(int) int&
++operator =(int) int&
++operator >(TileAI&) bool
++friend operator<<(ostream&, TileAI&) ostream&
 }
 
 class BattleshipAI{
-    -pair<bool, bool> map[10][10]
+-pair<bool, bool> map[10][10]
 
     +init()
     +Shoot(Map&)
 }
 
 class UIElement{
-    #SDL_Rect srcRect, destRect
-    #SDL_Texture *texture
-    +bool active
-    +virtual HandleEvent(const SDL_Event*)
-    +virtual update()
-    +virtual getAllEventsUsed() vector<SDL_EventType>
-    +draw()
-    +virtual ~UIElement()
-    +virtual clean()
+#SDL_Rect srcRect, destRect
+#SDL_Texture *texture
++bool active
++virtual HandleEvent(const SDL_Event*)
++virtual update()
++virtual getAllEventsUsed() vector< SDL_EventType >
++draw()
++virtual ~UIElement()
++virtual clean()
 }
 
 class UILayer{
-    -vector< unique_ptr< UIElement >> elements
-    -bitset<32> eventTypes
+-vector< unique_ptr< UIElement >> elements
+-bitset<32> eventTypes
 
     +update()
     +draw()
     +HandleEvent(const SDL_Event*)    
-    +AddElement<T,...tArgs>() T&
+    +AddElement< T,...tArgs >() T&
     +HasEvent(Uint32) bool
     +DeleteElement(UIElement*)
 }
 
 class Sprite{
-    +Sprite(const char*, int, int, int, int)
-    +~Sprite()
++Sprite(const char*, int, int, int, int)
++~Sprite()
 }
 
 class Button{
-    -function< void > onClick
-    +Button(const char*, int, int, int ,int, function<void()>)
+-function< void > onClick
++Button(const char*, int, int, int ,int, function< void() >)
 }
 ```
